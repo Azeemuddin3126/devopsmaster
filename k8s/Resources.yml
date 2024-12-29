@@ -1,0 +1,25 @@
+Breakdown of Resources in the YAML File:
+
+Namespace: Defines a my-namespace namespace to isolate resources.
+
+Pod: A simple Pod with a single container using my-image.
+
+Deployment: A Deployment that ensures 3 replicas of a pod are running.
+
+Service: A Service that exposes the my-app Deployment on port 80 within the cluster.
+
+ReplicaSet: A ReplicaSet to manage 3 replicas of my-app pods.
+
+StatefulSet: A StatefulSet that guarantees stable storage and pod identity for stateful applications.
+
+ConfigMap: A ConfigMap storing configuration data (key value).
+
+Secret: A Secret storing sensitive information like username and password (base64 encoded).
+
+PersistentVolume: A PersistentVolume for storing 1Gi of data on a local path /mnt/data.
+
+PersistentVolumeClaim: A PersistentVolumeClaim requesting 1Gi of storage, which will bind to the PersistentVolume.
+
+Ingress: An Ingress resource routing traffic from my-app.example.com to the my-service.
+
+Job: A Job that runs a single pod to execute echo Hello World.

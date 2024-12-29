@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - /var/run/docker.sock:/var/run/docker.sock  # If using Docker monitoring
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - monitoring
+
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube-data:/var/lib/sonar
+    networks:
+      - monitoring
+
+  # Monitoring Kubernetes cluster
+  kube-state-metrics:
+    image: k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.0.0
+    container_name: kube-state-metrics
+    ports:
+      - "8085:8085"
+    command:
+      - /bin/kube-state-metrics
+    environment:
+      - KSM_METRICS_PATH=/metrics
+    networks:
+      - monitoring
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    ports:
+      - 9100:9100
+    networks:
+      - monitoring
+
+volumes:
+  grafana-data:
+  sonarqube-data:
+
+networks:
+  monitoring:

@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+
+  - job_name: 'grafana'
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ['grafana:3000']
+
+  # - job_name: 'portfolio'
+  #   metrics_path: "/prometheus"
+  #   static_configs:
+  #     - targets: ['host.docker.internal:32769']  # Docker container metrics endpoint  
+
+
+  - job_name: 'jenkins'
+    metrics_path: "/prometheus"
+    static_configs:
+      - targets: ['host.docker.internal:8080'] # Use `host.docker.internal` to connect to your local host
+
+  - job_name: 'nodex'
+    metrics_path: "/metrics"    
+    static_configs:
+      - targets: ['host.docker.internal:9100']
+
+
+
+  # Prometheus exporter for Docker on Windows
+  # The Docker Prometheus exporter (default on Docker host)

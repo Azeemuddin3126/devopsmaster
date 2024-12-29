@@ -1,0 +1,9 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 80  # Port for your services in the cluster
+        hostPort: 8282      # Port on the host machine to access services
+        protocol: TCP
+

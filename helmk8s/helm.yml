@@ -1,0 +1,19 @@
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace
+kubectl edit svc prometheus-grafana -n monitoring--edit to LB and change port
+kubectl get svc prometheus-grafana -n monitoring
+minikube tunnel 
+
+kubectl get pods -n monitoring
+
+kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090
+
+kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80
+
+----------------grafana--------------------
+admin
+prom-operator(pass)
+
+http://prometheus-operated:9090
+18283

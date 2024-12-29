@@ -1,0 +1,34 @@
+--Deployment
+kubectl create deployment static-webapp --image=salmaan21/statiwebapp:latest --replicas=2 --dry-run=client -o yaml > deployment.yaml
+
+kubectl expose deployment static-webapp --port=80 --target-port=80 --type=ClusterIP --dry-run=client -o yaml > service.yaml
+
+kubectl port-forward svc/static-webapp-service 8282:80
+
+--replicaset
+kubectl create replicaset my-replicaset --image=my-image --replicas=3 --dry-run=client -o yaml > replicaset.yaml
+
+--statefulset
+kubectl create statefulset my-statefulset --image=my-image --replicas=3 --dry-run=client -o yaml > statefulset.yaml
+
+--configmap
+kubectl create configmap my-config --from-literal=key=value --dry-run=client -o yaml > configmap.yaml
+
+--secret
+kubectl create secret generic my-secret --from-literal=username=myuser --from-literal=password=mypassword --dry-run=client -o yaml > secret.yaml
+
+--PersistentVolume (PV)
+kubectl create pv my-pv --capacity=1Gi --access-modes=ReadWriteOnce --dry-run=client -o yaml > pv.yaml
+
+--PersistentVolumeClaim (PVC)
+kubectl create pvc my-pvc --access-modes=ReadWriteOnce --storage=1Gi --dry-run=client -o yaml > pvc.yaml
+
+--Ingress
+kubectl create ingress my-ingress --rule="my-app.example.com/*=my-service:80" --dry-run=client -o yaml > ingress.yaml
+
+--Job
+kubectl create job my-job --image=my-image --command -- /bin/sh -c "echo Hello World" --dry-run=client -o yaml > job.yaml
+
+kubectl apply -f all-resources.yaml
+
+

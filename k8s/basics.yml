@@ -1,0 +1,42 @@
+#----------------Generate YAML--------------
+
+
+# kind: Cluster
+# apiVersion: kind.x-k8s.io/v1alpha4
+# nodes:
+#   - role: control-plane
+#   - role: worker
+#   - role: worker
+#   - role: worker
+
+
+kind create cluster --config kind-cluster-config.yaml --name my-cluster
+kind get clusters
+kind delete cluster --name my-cluster
+
+kubectl create deployment static-webapp --image=salmaan21/statiwebapp:latest --replicas=2 --dry-run=client -o yaml > deployment.yaml
+
+kubectl expose deployment static-webapp --port=80 --target-port=80 --type=ClusterIP --dry-run=client -o yaml > service.yaml
+
+kubectl port-forward svc/static-webapp-service 8282:80
+
+
+kubectl apply -f portfolio-deployment.yaml
+kubectl apply -f service.yml
+kubectl get all
+kubectl get pods
+kubectl get svc
+kubectl describe pod
+kubectl get deployments
+kubectl port-forward service/portfolio 8100:80
+kubectl delete all -all
+minikube stop
+
+
+
+kompose convert -f docker-compose.yml
+
+
+
+
+

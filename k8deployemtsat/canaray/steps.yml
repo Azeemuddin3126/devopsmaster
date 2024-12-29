@@ -1,0 +1,7 @@
+kubectl apply -f stable-deployment.yaml
+kubectl apply -f canary-deployment.yaml
+kubectl apply -f canary-service.yaml
+
+
+kubectl scale deployment canary-deployment --replicas=2
+kubectl scale deployment stable-deployment --replicas=2
